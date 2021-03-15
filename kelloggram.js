@@ -89,6 +89,14 @@ async function renderPost(post) {
         <span class="likes">${post.likes}</span>
       </div>
 
+          <div class="text-2xl md:mx-0 mx-4">
+           <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript
+            <span class="ups">${post.ups}</span>
+
+            <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt="javascript button"></button>
+            <span class="downs">${post.downs}</span>     
+          </div>
+
       <div class="comments text-sm md:mx-0 mx-4 space-y-2">
         ${renderComments(post.comments)}
       </div>
@@ -117,6 +125,53 @@ async function renderPost(post) {
       let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
       let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
       document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
+    }
+  })
+
+
+    // listen for the up button on this post
+  let upButton = document.querySelector(`.post-${postId} .up-button`)
+  upButton.addEventListener('click', async function(event) {
+    event.preventDefault()
+    console.log(`post ${postId} up button clicked!`)
+    let currentUserId = firebase.auth().currentUser.uid
+
+    let response = await fetch('/.netlify/functions/up', {
+      method: 'POST',
+      body: JSON.stringify({
+        postId: postId,
+        userId: currentUserId
+      })
+    })
+    if (response.ok) {
+      let existingNumberOfUps = document.querySelector(`.post-${postId} .ups`).innerHTML
+      console.log(existingNumberOfUps)
+      let newNumberOfUps = parseInt(existingNumberOfUps) + 1
+       console.log(newNumberOfUps)
+      document.querySelector(`.post-${postId} .ups`).innerHTML = newNumberOfUps
+      
+    }
+  })
+
+
+      // listen for the down button on this post
+  let downButton = document.querySelector(`.post-${postId} .down-button`)
+  downButton.addEventListener('click', async function(event) {
+    event.preventDefault()
+    console.log(`post ${postId} down button clicked!`)
+    let currentUserId = firebase.auth().currentUser.uid
+
+    let response = await fetch('/.netlify/functions/down', {
+      method: 'POST',
+      body: JSON.stringify({
+        postId: postId,
+        userId: currentUserId
+      })
+    })
+    if (response.ok) {
+      let existingNumberOfDowns = document.querySelector(`.post-${postId} .downs`).innerHTML
+      let newNumberOfDowns = parseInt(existingNumberOfDowns) + 1
+      document.querySelector(`.post-${postId} .downs`).innerHTML = newNumberOfDowns
     }
   })
 

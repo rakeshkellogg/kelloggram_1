@@ -20,6 +20,15 @@ exports.handler = async function(event) {
     let commentsQuery = await db.collection('comments')     // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
                              .get()
+
+    let upsQuery = await db.collection('ups')     // likes from Firestore
+                             .where('postId', '==', postId) // for the given postId
+                             .get()
+   let downsQuery = await db.collection('downs')     // likes from Firestore
+                             .where('postId', '==', postId) // for the given postId
+                             .get()                         
+
+
     let commentsData = []                                   // an empty Array
     let comments = commentsQuery.docs                       // the comments documents
 
@@ -37,7 +46,9 @@ exports.handler = async function(event) {
       id: postId,                                           // the post ID
       imageUrl: postData.imageUrl,                          // the image URL
       username: postData.username,                          // the username
-      likes: likesQuery.size,                               // number of likes
+      likes: likesQuery.size,
+      ups: upsQuery.size,
+      downs: downsQuery.size,                               // number of likes
       comments: commentsData                                // an Array of comments
     })
   }

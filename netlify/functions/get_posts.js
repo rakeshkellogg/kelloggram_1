@@ -14,9 +14,7 @@ exports.handler = async function(event) {
   for (let i=0; i<posts.length; i++) {
     let postId = posts[i].id                                // the ID for the given post
     let postData = posts[i].data()                          // the rest of the post data
-    let likesQuery = await db.collection('likes')           // likes from Firestore
-                             .where('postId', '==', postId) // for the given postId
-                             .get()
+
     let commentsQuery = await db.collection('comments')     // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
                              .get()
@@ -46,7 +44,6 @@ exports.handler = async function(event) {
       id: postId,                                           // the post ID
       imageUrl: postData.imageUrl,                          // the image URL
       username: postData.username,                          // the username
-      likes: likesQuery.size,
       ups: upsQuery.size,
       downs: downsQuery.size,                               // number of likes
       comments: commentsData                                // an Array of comments

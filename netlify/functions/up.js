@@ -15,8 +15,19 @@ exports.handler = async function(event) {
                               .where('userId', '==', userId)
                               .get()
   let numberOfUps = upSnapshot.size
+console.log(numberOfUps)
 
-  if (numberOfUps == 0) {
+ let downSnapshot = await db.collection('downs')
+                            .where('postId', '==', postId)
+                              .where('userId', '==', userId)
+                              .get()
+  let numberOfDowns = downSnapshot.size
+
+  
+
+  let votes = numberOfUps + numberOfDowns  
+
+  if (votes == 0) {
     await db.collection('ups').add({
       postId: postId,
       userId: userId

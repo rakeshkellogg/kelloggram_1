@@ -20,7 +20,6 @@ exports.handler = async function(event) {
 
   let docRef = await db.collection('posts').add(newPost)
   newPost.id = docRef.id
-  newPost.likes = 0
   newPost.ups = 0
   newPost.downs = 0
 

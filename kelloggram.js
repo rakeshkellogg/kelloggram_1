@@ -306,7 +306,7 @@ async function renderProjectPost(post) {
     
       <div class="post-${postId} md:mt-16 mt-8 space-y-8">
         <div class="md:mx-0 mx-4">
-          <span class="font-bold text-xl">Designer ${post.username}</span>
+          <span class="font-bold text-xl">Designer: ${post.username}</span>
         </div>
   
         <div>

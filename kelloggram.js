@@ -1,6 +1,11 @@
 
+
+let projectId
+let formStatus = document.querySelector('#image-url').id
+let formCheck ='no'
+
 firebase.auth().onAuthStateChanged(async function(user) {
-  let projectId
+  
 
   if (user) {
     // Signed in
@@ -21,9 +26,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
     })
 
     //posted on slack for help passing a variable outside of an event listener and function
-    let formCheck ='no'
+    
     //let projectId
-    let formStatus = document.querySelector('#image-url').id
+    
     console.log(formStatus)
 
       // Listen for the form submit and create/render the new post
@@ -56,7 +61,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         let response = await fetch('/.netlify/functions/create_project_post', {
           method: 'POST',
           body: JSON.stringify({
-            //project: projectId,
+            project: projectId,
             userId: user.uid,
             username: postUsername,
             imageUrl: postImageUrl
@@ -175,7 +180,7 @@ async function renderPost(post) {
    projectId = post.id
    formStatus = 'image-url2'
    //console.log(formCheck)
-   console.log(projectId)
+   //console.log(projectId)
 
    let response = await fetch('/.netlify/functions/get_project_posts')
    let posts = await response.json()
@@ -216,8 +221,8 @@ async function renderPost(post) {
     
   
  
- // console.log(projectId)
-  
+  console.log(projectId)
+  console.log(formCheck)
   
   
   

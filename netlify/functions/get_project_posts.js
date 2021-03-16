@@ -2,17 +2,27 @@
 let firebase = require('./firebase')
 
 exports.handler = async function(event) {
-  let db = firebase.firestore()                             // define a variable so we can use Firestore
+  let db = firebase.firestore()    // define a variable so we can use Firestore
+
+  // grab the project ID for the ugly room the user clicked
+  let body = JSON.parse(event.body)
+  //let userId = body.userId
+  //let username = body.username
+  //let imageUrl = body.imageUrl
+  let projectId = body.project
+
   let postsData = []                                        // an empty Array
   
-  let postsQuery = await db.collection('projectposts')             // posts from Firestore
-                           .orderBy('created')              // ordered by created
+  // take the projectId from the front end and only look at project posts with the right ID
+  let postsQuery = await db.collection('projectposts').where('project', '==', projectId)             // posts from Firestore
+                           //.orderBy('created')              // ordered by created
                            .get()
   let posts = postsQuery.docs                               // the post documents themselves
   
   // loop through the post documents
   for (let i=0; i<posts.length; i++) {
-    let postId = posts[i].id                                // the ID for the given post
+    let postId = posts[i].id
+    //let postProject = post[i].project                                // the ID for the given post
     let postData = posts[i].data()                          // the rest of the post data
 
     let commentsQuery = await db.collection('comments')     // likes from Firestore
@@ -24,7 +34,12 @@ exports.handler = async function(event) {
                              .get()
    let downsQuery = await db.collection('downs')     // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
-                             .get()                         
+                             .get()    
+
+    /* let projectQuery = await db.collection('downs')     // likes from Firestore
+    .where('postId', '==', postId) // for the given postId
+    .get()   */                             
+                             
 
 
     let commentsData = []                                   // an empty Array

@@ -182,12 +182,32 @@ async function renderPost(post) {
    //console.log(formCheck)
    //console.log(projectId)
 
-   let response = await fetch('/.netlify/functions/get_project_posts')
+   // pass the projectId to the back end
+   /* let response = await fetch('/.netlify/functions/get_project_posts')
    let posts = await response.json()
    for (let i=0; i<posts.length; i++) {
      let post = posts[i]
      renderProjectPost(post)
    }
+ */
+   // pass the projectId to the back end
+    let response = await fetch('/.netlify/functions/get_project_posts', {
+      method: 'POST',
+      body: JSON.stringify({
+        project: projectId,
+      })
+    })
+
+    let posts = await response.json()
+    //clear the ugly rooms
+
+    //populate the design proposals for the chosen ugly room
+    document.querySelector('.posts').innerHTML = ``
+   for (let i=0; i<posts.length; i++) {
+     let post = posts[i]
+     renderProjectPost(post)
+   }
+
 
    document.querySelector('form').innerHTML = `
      <div>
@@ -275,56 +295,68 @@ async function renderPost(post) {
 // render project posts
 async function renderProjectPost(post) {
   let postId = post.id
-  projectId = postId
-  document.querySelector('.posts').innerHTML = `
-    <div class="post-${postId} md:mt-16 mt-8 space-y-8">
-      <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">Designer ${post.username}</span>
-      </div>
-
-      <div>
-        <img src="${post.imageUrl}" class="w-full">
-      </div>
-
-
-      <div class="text-2xl md:mx-0 mx-4">
-           <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button"></button>
-            <span class="ups">${post.ups}</span>
+  projectId
+  
+  //if (formCheck == 'no') {
+    //document.querySelector('.posts').innerHTML = ``
+  //} /* else {
+    document.querySelector('.posts').insertAdjacentHTML('beforeend', `
+    
+      <div class="post-${postId} md:mt-16 mt-8 space-y-8">
+        <div class="md:mx-0 mx-4">
+          <span class="font-bold text-xl">Designer ${post.username}</span>
+        </div>
+  
+        <div>
+          <img src="${post.imageUrl}" class="w-full">
+        </div>
+  
+  
+        <div class="text-2xl md:mx-0 mx-4">
+             <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button"></button>
+              <span class="ups">${post.ups}</span>
+        
+              <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt="javascript button"></button>
+              <span class="downs">${post.downs}</span>     
+        </div>
+  
       
-            <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt="javascript button"></button>
-            <span class="downs">${post.downs}</span>     
-      </div>
+      </div> 
+  
+      
+    `
+    )
+    
 
     
-    </div> 
+  
 
-    
-  `
-// // listen for the up button on this post
-  // let upButton = document.querySelector(`.post-${post.id} .up-button`)
-  // upButton.addEventListener('click', async function(event) {
-  //   event.preventDefault()
-  //   console.log(`post ${post.id} up button clicked!`)
-  //   let currentUserId = firebase.auth().currentUser.uid
+  
+      // listen for the up button on this post
+      let upButton = document.querySelector(`.post-${post.id} .up-button`)
+      upButton.addEventListener('click', async function(event) {
+        event.preventDefault()
+        console.log(`post ${post.id} up button clicked!`)
+        let currentUserId = firebase.auth().currentUser.uid
 
-  //   let response = await fetch('/.netlify/functions/up', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       postId: post.id,
-  //       userId: currentUserId
-  //     })
-  //   })
-  //   console.log(response.ok)
-  //   if (response.ok) {
-  //     console.log(response.ok)
-  //     let existingNumberOfUps = document.querySelector(`.post-${post.id} .ups`).innerHTML
-  //     console.log(existingNumberOfUps)
-  //     let newNumberOfUps = parseInt(existingNumberOfUps) + 1
-  //      console.log(newNumberOfUps)
-  //     document.querySelector(`.post-${post.id} .ups`).innerHTML = newNumberOfUps
+        let response = await fetch('/.netlify/functions/up', {
+          method: 'POST',
+          body: JSON.stringify({
+            postId: post.id,
+            userId: currentUserId
+          })
+        })
+        console.log(response.ok)
+        if (response.ok) {
+          console.log(response.ok)
+          let existingNumberOfUps = document.querySelector(`.post-${post.id} .ups`).innerHTML
+          console.log(existingNumberOfUps)
+          let newNumberOfUps = parseInt(existingNumberOfUps) + 1
+          console.log(newNumberOfUps)
+          document.querySelector(`.post-${post.id} .ups`).innerHTML = newNumberOfUps
 
-  //   }
-  // })
+        }
+      })
 
 
       // listen for the down button on this post

@@ -15,35 +15,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
     document.querySelector('.sign-out').addEventListener('click', function(event) {
       console.log('sign out clicked')
       firebase.auth().signOut()
-      document.location.href = 'index.html'
+      document.location.href = 'projects.html'
     })
 
     // Listen for the form submit and create/render the new post
-    document.querySelector('form').addEventListener('submit', async function(event) {
-      event.preventDefault()
-      let postUsername = user.displayName
-      let postImageUrl = document.querySelector('#image-url').value
-      let response = await fetch('/.netlify/functions/create_project_post', {
-        method: 'POST',
-        body: JSON.stringify({
-          userId: user.uid,
-          username: postUsername,
-          imageUrl: postImageUrl
-        })
-      })
-      let post = await response.json()
-      document.querySelector('#image-url').value = '' // clear the image url field
-      renderPost(post)
-    })
-
-    let response = await fetch('/.netlify/functions/get_posts')
-    let posts = await response.json()
-    for (let i=0; i<posts.length; i++) {
-      let post = posts[i]
-      renderPost(post)
-    }
-
-   /*  // On the projects HTML page, listen for the form submit and create/render the new post
     document.querySelector('form').addEventListener('submit', async function(event) {
       event.preventDefault()
       let postUsername = user.displayName
@@ -66,8 +41,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     for (let i=0; i<posts.length; i++) {
       let post = posts[i]
       renderPost(post)
-    } */
-
+    }
   } else {
     // Signed out
     console.log('signed out')
@@ -83,7 +57,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID
       ],
-      signInSuccessUrl: 'index.html'
+      signInSuccessUrl: 'projects.html'
     }
 
     // Starts FirebaseUI Auth
@@ -119,20 +93,12 @@ async function renderPost(post) {
            <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button"></button>
             <span class="ups">${post.ups}</span>
       
-            <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt="javascript button"></button>
-            <span class="downs">${post.downs}</span>     
+                
       </div>
 
-      <div class="comments text-sm md:mx-0 mx-4 space-y-2">
-        ${renderComments(post.comments)}
-      </div>
-
-      <div class="w-full md:mx-0 mx-4">
-        ${renderCommentForm()}
-      </div>
     </div>
   `)
-    // listen for the up button on this post
+    /* // listen for the up button on this post
   let upButton = document.querySelector(`.post-${post.id} .up-button`)
   upButton.addEventListener('click', async function(event) {
     event.preventDefault()
@@ -240,5 +206,5 @@ function renderCommentForm() {
     <input type="text" class="mr-2 rounded-lg border px-3 py-2 focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Add a comment...">
     <button class="post-comment-button py-2 px-4 rounded-md shadow-sm font-medium text-white bg-purple-600 focus:outline-none">Post</button>
   `
-  return commentForm
+  return commentForm */
 }

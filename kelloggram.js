@@ -34,7 +34,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       // Listen for the form submit and create/render the new post
     document.querySelector('form').addEventListener('submit', async function(event) {
       event.preventDefault()
-      if(formStatus == 'image-url') {
+      if(formCheck == 'no') {
         let postUsername = user.displayName
       let postImageUrl = document.querySelector('#image-url').value
       let response = await fetch('/.netlify/functions/create_post', {
@@ -52,8 +52,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
     } else {
 
       // Listen for the form submit and create/render the new post
-      document.querySelector('form').addEventListener('submit', async function(event) {
-        event.preventDefault()
+      //document.querySelector('form').addEventListener('submit', async function(event) {
+        //event.preventDefault()
         let postUsername = user.displayName
         console.log(projectId)
         console.log(formCheck)
@@ -70,7 +70,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
         let post = await response.json()
         document.querySelector('#image-url2').value = '' // clear the image url field
         renderProjectPost(post)
-      })
+      //})
     }
     })
     
@@ -151,7 +151,7 @@ async function renderPost(post) {
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
     <div class="post-${postId} md:mt-16 mt-8 space-y-8">
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">Designer ${post.username}</span>
+        <span class="font-bold text-xl">Home of: ${post.username}</span>
       </div>
 
       <div>
@@ -159,8 +159,8 @@ async function renderPost(post) {
       </div>
 
       <div class="text-2xl md:mx-0 mx-4">
-           <button class="submit-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button">Submit a Design!</button>
-            
+           
+           <button class="submit-button bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-xl">I can help!</button>
       </div>
 
      
@@ -169,6 +169,7 @@ async function renderPost(post) {
       
   `)
 
+  //<button class="submit-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button">Submit a Design!</button>
   // listen for the submit button on this post
  let submitButton = document.querySelector(`.post-${post.id} .submit-button`)
  submitButton.addEventListener('click', async function(event) {
@@ -178,7 +179,7 @@ async function renderPost(post) {
    //here i need to pass a variable outside of the event listener and function. if we can do that, then we can assign the post.id (projectId) to all new posts!
    formCheck = 'yes'
    projectId = post.id
-   formStatus = 'image-url2'
+   formStatus = 'image-url2' // change the html name of the form - we'll use this distinction to call a different lambda function
    //console.log(formCheck)
    //console.log(projectId)
 
@@ -202,18 +203,19 @@ async function renderPost(post) {
     //clear the ugly rooms
 
     //populate the design proposals for the chosen ugly room
-    document.querySelector('.posts').innerHTML = ``
-   for (let i=0; i<posts.length; i++) {
+    document.querySelector('.posts').innerHTML = `` // first clear the ugly rooms from the html
+   for (let i=0; i<posts.length; i++) {             // then populate all the design submissions
      let post = posts[i]
      renderProjectPost(post)
    }
+
 
 
    document.querySelector('form').innerHTML = `
      <div>
        <form class="w-full mt-8">
          <input type="text" id="image-url2" name="image-url2" placeholder="Design Image" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-         <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Test</button>
+         <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit Design</button>
        </form>
      </div>
    `

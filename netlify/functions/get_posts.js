@@ -19,10 +19,10 @@ exports.handler = async function(event) {
                              .where('postId', '==', postId) // for the given postId
                              .get()
 
-    let upsQuery = await db.collection('ups')     // likes from Firestore
+    let upsQuery = await db.collection('ups')               // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
                              .get()
-   let downsQuery = await db.collection('downs')     // likes from Firestore
+   let downsQuery = await db.collection('downs')            // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
                              .get()                         
 

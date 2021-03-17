@@ -1,6 +1,7 @@
 // /.netlify/functions/create_post
 let firebase = require('./firebase')
 
+// write the ugly rooms to firebase
 exports.handler = async function(event) {
   let db = firebase.firestore()
   let body = JSON.parse(event.body)
@@ -19,7 +20,7 @@ exports.handler = async function(event) {
   }
 
   let docRef = await db.collection('posts').add(newPost)
-  newPost.id = docRef.id
+  newPost.id = docRef.id // this becomes the project ID of the ugly room
   newPost.ups = 0
   newPost.downs = 0
 

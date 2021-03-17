@@ -11,7 +11,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     // Signed in
     console.log('signed in')
      
-    // // Write the user's info to firebase -- firebase can still ientify our signed-in users, even without writing them to a users collection
+    // // Write the user's info to firebase -- firebase can still ientify our signed-in users, even without creating a lambda function to write users to a collection
     // let data = firebase.firestore()
     // data.collection('users').doc(user.uid).set({
     //    name: user.displayName,
@@ -20,7 +20,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
     // Sign-out button
     document.querySelector('.sign-in-or-sign-out').innerHTML = `
-      <button class="text-pink-500 underline sign-out">Sign Out</button>
+      <button class="text-gray-400 underline sign-out">Sign Out</button>
     `
     document.querySelector('.sign-out').addEventListener('click', function(event) {
       console.log('sign out clicked')
@@ -28,9 +28,24 @@ firebase.auth().onAuthStateChanged(async function(user) {
       document.location.href = 'index.html'
     })
     
+    // Back button to allow users to easily navigate between ugly rooms and design ideas!
+    document.querySelector('.back-button').innerHTML = `
+    <button class="text-gray-400 underline sign-out">Back</button>
+    `
+    document.querySelector('.back-button').addEventListener('click', async function(event) {
+      document.querySelector('.posts').innerHTML = `` // clear the existing page
+      // get and render all of the ugly room posts
+      let response = await fetch('/.netlify/functions/get_posts')
+      let posts = await response.json()
+      for (let i=0; i<posts.length; i++) {
+        let post = posts[i]
+        renderPost(post)
+      }
+    })
+
     // console.log(formStatus)
 
-    // Listen for the form submit and create/render the new post
+    // Listen for the user's form submit and create + render the new ugly post
     document.querySelector('form').addEventListener('submit', async function(event) {
       event.preventDefault()
 
@@ -121,7 +136,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       </div>
     `)
 
-    // only show the auth flow if the let's get started button is clicked. this makes a more-friendly user experience
+    // only show the auth flow if the "let's get started" button is clicked. this makes a more-friendly user experience
     document.querySelector('.getstarted-button').addEventListener('click', function(event) {
         console.log('lets get started clicked')
       
@@ -140,21 +155,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
         ui.start('.sign-in-or-sign-out', authUIConfig)
 
     })
-
-
-    // // Initializes FirebaseUI Auth
-    // let ui = new firebaseui.auth.AuthUI(firebase.auth())
-
-    // // FirebaseUI configuration
-    // let authUIConfig = {
-    //   signInOptions: [
-    //     firebase.auth.EmailAuthProvider.PROVIDER_ID
-    //   ],
-    //   signInSuccessUrl: 'index.html'
-    // }
-
-    // // Starts FirebaseUI Auth
-    // ui.start('.sign-in-or-sign-out', authUIConfig)
   }
 })
 
@@ -179,7 +179,7 @@ async function renderPost(post) {
      
   `)
   
-  // listen for a user to click the "I can help!" button on an ugly room
+  // listen for a user to click the "I want to redesign this space!" button on an ugly room
   let submitButton = document.querySelector(`.post-${post.id} .submit-button`)
   submitButton.addEventListener('click', async function(event) {
     event.preventDefault()

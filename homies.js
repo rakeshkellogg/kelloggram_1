@@ -118,20 +118,20 @@ async function renderPost(post) {
     
     <div class="post-${postId} md:mt-16 mt-8 space-y-8">
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">Home of: ${post.username}</span>
+        <span class="font-bold text-gray-700 text-xl">Home of: ${post.username}</span>
       </div>
 
       <div>
-        <img src="${post.imageUrl}" class="w-full">
+        <img src="${post.imageUrl}" class="w-full rounded-lg shadow-lg">
       </div>
 
       <div class="text-2xl md:mx-0 mx-4">
-        <button class="submit-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl">I can help!</button>
+        <button class="submit-button bg-indigo-900 hover:bg-blue-600 text-white px-4 py-2 rounded-xl">I want to redesign this space!</button>
       </div>
     </div>
      
   `)
-
+  
   // listen for a user to click the "I can help!" button on an ugly room
   let submitButton = document.querySelector(`.post-${post.id} .submit-button`)
   submitButton.addEventListener('click', async function(event) {
@@ -165,8 +165,8 @@ async function renderPost(post) {
     document.querySelector('form').innerHTML = `
       <div>
         <form class="w-full mt-8">
-          <input type="text" id="image-url2" name="image-url2" placeholder="Design Image" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-          <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit Design</button>
+          <input type="text" id="image-url2" name="image-url2" placeholder="Design proposal URL goes here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+          <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit Design</button>
         </form>
       </div>
     `
@@ -184,11 +184,11 @@ async function renderProjectPost(post) {
     
     <div class="post-${postId} md:mt-16 mt-8 space-y-8">
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">Designer: ${post.username}</span>
+        <span class="font-bold text-gray-700 text-xl">Designer: ${post.username}</span>
       </div>
 
       <div>
-        <img src="${post.imageUrl}" class="w-full">
+        <img src="${post.imageUrl}" class="w-full rounded-lg shadow-lg">
       </div>
 
       <div class="text-2xl md:mx-0 mx-4">

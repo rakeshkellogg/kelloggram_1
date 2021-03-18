@@ -44,6 +44,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
     //       renderPost(post)
     //     }
       
+    //     formCheck = 'no'
+    //     formStatus = 'image-url'
     //     document.querySelector('form').innerHTML = `` // clear the existing form
     //     // change the place holder for submit form
     //     document.querySelector('form').innerHTML = `  

@@ -28,32 +28,33 @@ firebase.auth().onAuthStateChanged(async function(user) {
       document.location.href = 'index.html'
     })
 
-    // Back button to allow users to easily navigate between ugly rooms and design ideas!
-    document.querySelector('.back-button').innerHTML = `
-    <button class="text-gray-400 underline sign-out">Back</button>
-    `
-      // get and render all of the ugly room posts
-      let response = await fetch('/.netlify/functions/get_posts')
-      let posts = await response.json()
-      document.querySelector('.back-button').addEventListener('click', async function(event) {
-        document.querySelector('.posts').innerHTML = `` // clear the existing page
-        // render all the posts for ugly page
-        for (let i=0; i<posts.length; i++) {
-          let post = posts[i]
-          renderPost(post)
-        }
+    // get and render all of the ugly room posts
+    let response = await fetch('/.netlify/functions/get_posts')
+    let posts = await response.json()
+
+    // // Refresh button to allow users to easily navigate between ugly rooms and design ideas! -- in our next version of the code, we'd implement a "back" feature to support easy navigation. we began developing a back feature; it has one bug...if a user submits a design idea, hits back, then attempts to post an ugly room of their own, the ugly room writes to the wrong collection. but we have a vision for how this functionality would work. for now, please hit the browsers refresh button
+    // document.querySelector('.back-button').innerHTML = `
+    // <button class="text-gray-400 underline sign-out">Refresh Ugly Rooms List</button>
+    // `
+    //   document.querySelector('.back-button').addEventListener('click', async function(event) {
+    //     document.querySelector('.posts').innerHTML = `` // clear the existing page
+    //     // render all the posts for ugly page
+    //     for (let i=0; i<posts.length; i++) {
+    //       let post = posts[i]
+    //       renderPost(post)
+    //     }
       
-        document.querySelector('form').innerHTML = `` // clear the existing form
-        // change the place holder for submit form
-        document.querySelector('form').innerHTML = `  
-          <div>
-            <form class="w-full mt-8">
-              <input type="text" id="image-url" name="image-url" placeholder="Room Project URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-              <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit my room</button>
-            </form>
-          </div>
-        `
-      })
+    //     document.querySelector('form').innerHTML = `` // clear the existing form
+    //     // change the place holder for submit form
+    //     document.querySelector('form').innerHTML = `  
+    //       <div>
+    //         <form class="w-full mt-8">
+    //           <input type="text" id="image-url" name="image-url" placeholder="Room Project URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+    //           <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit my room</button>
+    //         </form>
+    //       </div>
+    //     `
+    //   })
 
     // console.log(formStatus)
 
@@ -83,7 +84,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
       } else { // if the user clicked into an ugly room, they can now use this button to post a design idea to the firebase projectposts collection
 
-        // Listen for the form submit and create/render the new design idea post
+        // Listen for the form submit and create + render the new design idea post
         let postUsername = user.displayName
         console.log(projectId) // the project ID is the ID of the ugly room ... that's how we associate design submissions with each ugly room
         console.log(formCheck)
@@ -107,8 +108,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
       }
     })
     
-   // let response = await fetch('/.netlify/functions/get_posts')
+    // let response = await fetch('/.netlify/functions/get_posts')
     //let posts = await response.json()
+
     for (let i=0; i<posts.length; i++) {
       let post = posts[i]
       renderPost(post)

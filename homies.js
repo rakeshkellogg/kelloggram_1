@@ -27,21 +27,36 @@ firebase.auth().onAuthStateChanged(async function(user) {
       firebase.auth().signOut()
       document.location.href = 'index.html'
     })
-    
+
     // Back button to allow users to easily navigate between ugly rooms and design ideas!
     document.querySelector('.back-button').innerHTML = `
     <button class="text-gray-400 underline sign-out">Back</button>
     `
-    document.querySelector('.back-button').addEventListener('click', async function(event) {
-      document.querySelector('.posts').innerHTML = `` // clear the existing page
-      // get and render all of the ugly room posts
       let response = await fetch('/.netlify/functions/get_posts')
       let posts = await response.json()
+    document.querySelector('.back-button').addEventListener('click', async function(event) {
+      document.querySelector('.posts').innerHTML = `` // clear the existing page
+      // render all the posts for ugly page
       for (let i=0; i<posts.length; i++) {
         let post = posts[i]
         renderPost(post)
       }
-    })
+     
+      document.querySelector('form').innerHTML = `` // clear the existing form
+      // change the place holder for submit form
+      document.querySelector('form').innerHTML = `  
+     <div>
+     <form class="w-full mt-8">
+     <input type="text" id="image-url" name="image-url" placeholder="Before Project URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+     <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit my room</button>
+     </form>
+     </div>
+     `
+      // get and render all of the ugly room posts
+
+    }
+    
+    )
 
     // console.log(formStatus)
 
@@ -95,8 +110,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
       }
     })
     
-    let response = await fetch('/.netlify/functions/get_posts')
-    let posts = await response.json()
+   // let response = await fetch('/.netlify/functions/get_posts')
+    //let posts = await response.json()
     for (let i=0; i<posts.length; i++) {
       let post = posts[i]
       renderPost(post)

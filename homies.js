@@ -254,10 +254,10 @@ async function renderProjectPost(post) {
       </div>
 
       <div class="text-2xl md:mx-0 mx-4">
-        <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt="javascript button"></button>
+        <button class="up-button"><img src="http://www.pngmart.com/files/10/Thumbs-UP-PNG-Transparent-Image.png" width="20" height="20" border="0" alt=""></button>
         <span class="ups">${post.ups}</span>
   
-        <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt="javascript button"></button>
+        <button class="down-button"><img src="https://www.nicepng.com/png/detail/223-2238128_thumbs-down-emoji-discord-emoji-thumbs-down.png" width="20" height="20" border="0" alt=""></button>
         <span class="downs">${post.downs}</span>     
       </div>
     </div> 

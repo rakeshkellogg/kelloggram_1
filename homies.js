@@ -32,31 +32,28 @@ firebase.auth().onAuthStateChanged(async function(user) {
     document.querySelector('.back-button').innerHTML = `
     <button class="text-gray-400 underline sign-out">Back</button>
     `
+      // get and render all of the ugly room posts
       let response = await fetch('/.netlify/functions/get_posts')
       let posts = await response.json()
-    document.querySelector('.back-button').addEventListener('click', async function(event) {
-      document.querySelector('.posts').innerHTML = `` // clear the existing page
-      // render all the posts for ugly page
-      for (let i=0; i<posts.length; i++) {
-        let post = posts[i]
-        renderPost(post)
-      }
-     
-      document.querySelector('form').innerHTML = `` // clear the existing form
-      // change the place holder for submit form
-      document.querySelector('form').innerHTML = `  
-     <div>
-     <form class="w-full mt-8">
-     <input type="text" id="image-url" name="image-url" placeholder="Before Project URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-     <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit my room</button>
-     </form>
-     </div>
-     `
-      // get and render all of the ugly room posts
-
-    }
-    
-    )
+      document.querySelector('.back-button').addEventListener('click', async function(event) {
+        document.querySelector('.posts').innerHTML = `` // clear the existing page
+        // render all the posts for ugly page
+        for (let i=0; i<posts.length; i++) {
+          let post = posts[i]
+          renderPost(post)
+        }
+      
+        document.querySelector('form').innerHTML = `` // clear the existing form
+        // change the place holder for submit form
+        document.querySelector('form').innerHTML = `  
+          <div>
+            <form class="w-full mt-8">
+              <input type="text" id="image-url" name="image-url" placeholder="Room Project URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+              <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit my room</button>
+            </form>
+          </div>
+        `
+      })
 
     // console.log(formStatus)
 
@@ -140,7 +137,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
               <span class="block text-indigo-900 xl:inline">Sweet Home</span>
             </h1>
             <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-              Whether you're looking to design or your dream home, scroll through beautiful rooms, or provide design advice, we're all homies here! Submit your design needs, crowdsource advice from our design community, and see which idea wins! 
+              Whether you're looking to design your dream home, scroll through beautiful rooms, or provide design advice, we're all homies here! Submit your design needs, crowdsource advice from our design community, and see which idea wins! 
             </p>
             <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
               <div class="rounded-md shadow">
@@ -227,7 +224,7 @@ async function renderPost(post) {
     document.querySelector('form').innerHTML = `
       <div>
         <form class="w-full mt-8">
-          <input type="text" id="image-url2" name="image-url2" placeholder="Design proposal URL goes here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+          <input type="text" id="image-url2" name="image-url2" placeholder="Design proposal URLs go here" class="my-2 p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500">
           <button class="bg-indigo-900 hover:bg-green-600 text-white px-4 py-2 rounded-xl">Submit Design</button>
         </form>
       </div>

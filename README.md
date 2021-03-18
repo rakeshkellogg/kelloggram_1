@@ -1,6 +1,7 @@
 Our final project is deployed via netlify at https://homiesdesign.netlify.app/index.html
 
 KIEI-451 Winter 2021 FinalProject Summary: Our project is a crowdsourcing platform for interior design. A user submits a design request of the room they'd like to be redesigned via an image url. Other users on the app contribute design ideas and the user can crowdsource likes to see which project is most popular. 
+It's basically like a separate kelloggram for each of the design request submitted by an user.
 
  Team: Lilianna Myers, Rakesh Mohanty, Alex Glover
 
